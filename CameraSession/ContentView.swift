@@ -8,17 +8,15 @@
 import SwiftUI
 
 struct ContentView: View {
+    @ObservedObject var cameraVM = CameraVM()
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            CameraPreview(session: cameraVM.session)
+                .ignoresSafeArea(edges: .all)
         }
-        .padding()
+        .onAppear {
+            cameraVM.checkForDevicePermissions()
+        }
     }
-}
-
-#Preview {
-    ContentView()
 }
