@@ -44,9 +44,13 @@ enum Status: Equatable {
     }
 }
 
+var IS_MULTI_DEVICE_ENABLED = true
+
 class CameraManager: ObservableObject {
     
     let session = AVCaptureSession()
+    
+    private var availableDevices: [AVCaptureDevice] = []
     
     @Published var status: Status = .unconfigured
     
@@ -73,6 +77,31 @@ class CameraManager: ObservableObject {
     }
 
     private func setUpVideoInput() throws {
+        
+        let deviceTypes: [AVCaptureDevice.DeviceType] = [
+                // The built-in wide angle camera is available on
+                // all iPhones. It's the standard rear-facing camera.
+                .builtInWideAngleCamera,
+                
+                // The built-in dual camera is available on iPhone
+                // 7 Plus, iPhone 8 Plus, iPhone X, iPhone XS, and
+                // iPhone XS Max. It combines input from a wide-angle
+                // and a telephoto lens to provide better zoom and
+                // depth-of-field capabilities.
+                .builtInDualCamera,
+                
+                // The built-in ultra wide camera is available on
+                // iPhone 11 and later. It has a much wider field
+                // of view than the wide angle camera.
+                .builtInUltraWideCamera
+            ]
+        
+        availableDevices = AVCaptureDevice.DiscoverySession(
+            deviceTypes: deviceTypes,
+            mediaType: .video,
+            position: .unspecified
+        ).devices
+
         guard let videoDevice = AVCaptureDevice.default(for: .video) else {
             throw CameraError.deviceUnavailable
         }
