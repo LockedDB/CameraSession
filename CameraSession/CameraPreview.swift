@@ -16,7 +16,7 @@ struct CameraPreview: UIViewRepresentable {
   // creates and configures a UIKit-based video preview view
   func makeUIView(context: Context) -> VideoPreviewView {
      let view = VideoPreviewView()
-     view.backgroundColor = .black
+     view.backgroundColor = .white
      view.videoPreviewLayer.session = session
      view.videoPreviewLayer.videoGravity = .resizeAspectFill
      return view

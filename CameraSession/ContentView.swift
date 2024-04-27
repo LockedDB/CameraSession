@@ -13,6 +13,15 @@ struct ContentView: View {
     var body: some View {
         VStack {
             CameraPreview(session: cameraVM.session)
+                .overlay {
+                    if case .failed(let error) = cameraVM.cameraManager.status {
+                        ContentUnavailableView {
+                            Label("No Device", systemImage: "iphone.rear.camera")
+                        } description: {
+                            Text("\(error.localizedDescription)")
+                        }
+                    }
+                }
                 .ignoresSafeArea(edges: .all)
         }
         .onAppear {

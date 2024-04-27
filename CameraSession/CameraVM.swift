@@ -26,12 +26,17 @@ class CameraVM: ObservableObject {
     }
     
     func checkForDevicePermissions() {
+        print("CameraVM: Checking for device permissions.")
+        
         let status = AVCaptureDevice.authorizationStatus(for: .video)
+        
         
         if (status == .authorized) {
             // Permission granted! Configure the camera session
             configureCamera()
+            print("CameraVM: Permission already granted.")
         } else if (status == .notDetermined) {
+            print("CameraVM: Permission not asked")
             // In case the user has not been asked to grant access we request permission
             AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: { _ in })
         } // else if (status == .denied) { what do we do? }
