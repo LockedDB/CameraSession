@@ -42,6 +42,10 @@ class CameraVM: ObservableObject {
         } // else if (status == .denied) { what do we do? }
     }
     
+    func changeInputDevice(device: AVCaptureDevice) {
+        cameraManager.switchCameraInput(newCamera: device)
+    }
+    
     // Configure the camera through the CameraManager to show a live camera preview.
     func configureCamera() {
         cameraManager.configureCaptureSession()

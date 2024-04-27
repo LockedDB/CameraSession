@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var cameraVM = CameraVM()
+    @State private var showDebugSettings = false
     
     var body: some View {
         VStack {
@@ -23,6 +24,20 @@ struct ContentView: View {
                     }
                 }
                 .ignoresSafeArea(edges: .all)
+        }
+        .gesture(MagnificationGesture().onEnded { _ in
+            self.showDebugSettings.toggle()
+        })
+        .sheet(isPresented: $showDebugSettings) {
+            VStack {
+                List(cameraVM.cameraManager.availableDevices, id: \.uniqueID) { device in
+                    Text(device.localizedName)
+                        .onTapGesture {
+                            cameraVM.changeInputDevice(device: device)
+                            self.showDebugSettings.toggle()
+                        }
+                }
+            }
         }
         .onAppear {
             cameraVM.checkForDevicePermissions()

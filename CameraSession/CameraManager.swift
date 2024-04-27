@@ -49,7 +49,7 @@ class CameraManager: ObservableObject {
     
     let session = AVCaptureSession()
     
-    private var availableDevices: [AVCaptureDevice] = []
+    var availableDevices: [AVCaptureDevice] = []
     
     @Published var status: Status = .unconfigured
     
@@ -127,6 +127,29 @@ class CameraManager: ObservableObject {
             }
         }
     }
+    
+    func switchCameraInput(newCamera: AVCaptureDevice) {
+        session.beginConfiguration()
+        
+        // Assuming `currentInput` is the current AVCaptureDeviceInput in the session
+        if let currentInput = session.inputs.first as? AVCaptureDeviceInput {
+            session.removeInput(currentInput)
+        }
+        
+        do {
+            let newInput = try AVCaptureDeviceInput(device: newCamera)
+            if session.canAddInput(newInput) {
+                session.addInput(newInput)
+            } else {
+                print("Cannot add new input")
+            }
+        } catch let error {
+            print("Error initializing new camera input: \(error)")
+        }
+        
+        session.commitConfiguration()
+    }
+
     
     private func addDeviceInput(ofType type: AVCaptureDevice.DeviceType) throws -> Bool {
         if let device = availableDevices.first(where: { $0.deviceType == type }) {
