@@ -44,7 +44,6 @@ enum Status: Equatable {
     }
 }
 
-var IS_MULTI_DEVICE_ENABLED = true
 
 class CameraManager: ObservableObject {
     
@@ -102,19 +101,42 @@ class CameraManager: ObservableObject {
             position: .unspecified
         ).devices
 
+        // Add the native defined default input
         guard let videoDevice = AVCaptureDevice.default(for: .video) else {
             throw CameraError.deviceUnavailable
         }
         
         do {
             let videoDeviceInput = try AVCaptureDeviceInput(device: videoDevice)
-            guard session.canAddInput(videoDeviceInput) else {
-                throw CameraError.inputSetupFailed
-            }
+            session.canAddInput(videoDeviceInput)
             session.addInput(videoDeviceInput)
         } catch {
-            throw CameraError.inputSetupFailed
+            
+            // If default set up fails, try to set up with other available
+            // devices sorted by preference
+            do {
+                if try addDeviceInput(ofType: .builtInWideAngleCamera) { return }
+                
+                if try addDeviceInput(ofType: .builtInDualCamera) { return }
+                
+                if try addDeviceInput(ofType: .builtInUltraWideCamera) { return }
+                
+                throw CameraError.inputSetupFailed
+            } catch {
+                throw CameraError.inputSetupFailed
+            }
         }
+    }
+    
+    private func addDeviceInput(ofType type: AVCaptureDevice.DeviceType) throws -> Bool {
+        if let device = availableDevices.first(where: { $0.deviceType == type }) {
+            let videoDeviceInput = try AVCaptureDeviceInput(device: device)
+            if session.canAddInput(videoDeviceInput) {
+                session.addInput(videoDeviceInput)
+                return true
+            }
+        }
+        return false
     }
     
     private func setUpPhotoOutput() throws {
