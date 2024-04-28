@@ -30,7 +30,7 @@ struct ContentView: View {
         })
         .sheet(isPresented: $showDebugSettings) {
             VStack {
-                List(cameraVM.cameraManager.availableDevices, id: \.uniqueID) { device in
+                List(cameraVM.cameraManager.availableInputDevices, id: \.uniqueID) { device in
                     Text(device.localizedName)
                         .onTapGesture {
                             cameraVM.changeInputDevice(device: device)
