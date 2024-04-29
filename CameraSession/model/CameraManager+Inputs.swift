@@ -101,7 +101,7 @@ extension CameraManager {
                 throw CameraError.inputSetupFailed
             }
         } catch let error {
-            status = .failed(error)
+            status = .failed(error as! CameraError)
         }
         
         session.commitConfiguration()

@@ -8,23 +8,28 @@
 import SwiftUI
 
 struct ContentView: View {
-    @ObservedObject var cameraVM = CameraVM()
+    var cameraVM = CameraVM()
     @State private var showDebugSettings = false
     
     var body: some View {
         VStack {
             CameraPreview(session: cameraVM.session)
-                .overlay {
-                    if case .failed(let error) = cameraVM.cameraManager.status {
-                        ContentUnavailableView {
-                            Label("No Device", systemImage: "iphone.rear.camera")
-                        } description: {
-                            Text("\(error.localizedDescription)")
+        }
+        .overlay {
+            if case .failed(let error) = cameraVM.cameraManager.status {
+                ContentUnavailableView {
+                    Label(error.info.label, systemImage: error.info.systemImage)
+                } description: {
+                    Text("\(error.localizedDescription)")
+                    if error == CameraError.permissionDenied {
+                        Button("Open Settings") {
+                            UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
                         }
                     }
                 }
-                .ignoresSafeArea(edges: .all)
+            }
         }
+        .ignoresSafeArea(edges: .all)
         .gesture(MagnificationGesture().onEnded { _ in
             self.showDebugSettings.toggle()
         })

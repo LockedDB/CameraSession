@@ -1,13 +1,14 @@
 import SwiftUI
 import AVFoundation
+import Observation
 
-class CameraManager: ObservableObject {
+@Observable class CameraManager {
     
     let session = AVCaptureSession()
     
     var availableInputDevices: [AVCaptureDevice] = []
     
-    @Published var status: CameraStatus = .unconfigured
+    var status: CameraStatus = .unconfigured
     
     // Serial queue to ensure thread safety when working with the camera
     private let sessionQueue = DispatchQueue(label: "com.camera.sessionQueue")
@@ -29,7 +30,7 @@ class CameraManager: ObservableObject {
                 self.startCapturing()
             } catch {
                 self.session.commitConfiguration()
-                self.status = .failed(error)
+                self.status = .failed(error as! CameraError)
             }
         }
     }
