@@ -14,6 +14,9 @@ struct ContentView: View {
     var body: some View {
         VStack {
             CameraPreview(session: cameraVM.session)
+                .overlay {
+                    CameraOverlay()
+                }
         }
         .overlay {
             if case .failed(let error) = cameraVM.cameraManager.status {
@@ -29,7 +32,6 @@ struct ContentView: View {
                 }
             }
         }
-        .ignoresSafeArea(edges: .all)
         .gesture(MagnificationGesture().onEnded { _ in
             self.showDebugSettings.toggle()
         })

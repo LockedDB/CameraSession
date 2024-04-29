@@ -17,6 +17,7 @@
 		965F142A2BD401D600A179E0 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965F14292BD401D600A179E0 /* CameraManager.swift */; };
 		965F142C2BD402D700A179E0 /* CameraVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 965F142B2BD402D700A179E0 /* CameraVM.swift */; };
 		96C3775C2BDE3C4700C90E14 /* CameraStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C3775B2BDE3C4700C90E14 /* CameraStatus.swift */; };
+		96C3775E2BDF822200C90E14 /* CameraOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96C3775D2BDF822200C90E14 /* CameraOverlay.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +43,7 @@
 		965F14292BD401D600A179E0 /* CameraManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
 		965F142B2BD402D700A179E0 /* CameraVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraVM.swift; sourceTree = "<group>"; };
 		96C3775B2BDE3C4700C90E14 /* CameraStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraStatus.swift; sourceTree = "<group>"; };
+		96C3775D2BDF822200C90E14 /* CameraOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraOverlay.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				963311BC2BCEECE000E1BF25 /* CameraPreview.swift */,
+				96C3775D2BDF822200C90E14 /* CameraOverlay.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -245,6 +248,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				963311B12BCEEC8C00E1BF25 /* ContentView.swift in Sources */,
+				96C3775E2BDF822200C90E14 /* CameraOverlay.swift in Sources */,
 				963311BD2BCEECE000E1BF25 /* CameraPreview.swift in Sources */,
 				965F142C2BD402D700A179E0 /* CameraVM.swift in Sources */,
 				96C3775C2BDE3C4700C90E14 /* CameraStatus.swift in Sources */,
